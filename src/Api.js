@@ -1,6 +1,6 @@
 import { Loading, LocalStorage } from 'quasar'
 import axios from 'axios'
-import { Msg } from './mensagem'
+import { Msg } from './message'
 
 export default class Api {
   constructor (host, notFound, unauthorized) {
