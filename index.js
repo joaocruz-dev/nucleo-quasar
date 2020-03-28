@@ -1,6 +1,7 @@
 import { Api, Scroll, validate, LoginToken, Msg, Alert } from './utils'
 
 let api = null
+let path = null
 let loginToken = null
 let alert = null
 let delet = null
@@ -12,7 +13,8 @@ class NucleoQuasar {
     const server = process.env.NODE_ENV === 'development' ? optionsApi.hostDev : optionsApi.hostProd
     api = new Api(server, optionsApi.notFoundFn, optionsApi.unauthorizedFn)
     Vue.prototype.$api = api
-    Vue.prototype.$path = optionsApi.path
+    path = optionsApi.path
+    Vue.prototype.$path = path
 
     Vue.prototype.$Scroll = Scroll
 
@@ -45,4 +47,4 @@ class NucleoQuasar {
   }
 }
 
-export { NucleoQuasar, api, Scroll, validate, loginToken, Msg, alert, delet }
+export { NucleoQuasar, api, path, Scroll, validate, loginToken, Msg, alert, delet }
