@@ -1,5 +1,4 @@
 import { Notify, Dialog } from 'quasar'
-import { delet } from './api'
 
 export const Msg = (message = null, type = true, opt = {}) => {
   if (!message) message = type ? 'Sucesso' : 'Erro'
