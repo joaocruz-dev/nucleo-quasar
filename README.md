@@ -90,3 +90,13 @@ Request methods allowed.
   loading: true
 }
 ```
+
+## Credits
+
+- [Quasar](https://quasar.dev)
+- [Axios](https://github.com/axios/axios)
+- [Vuelidate](https://vuelidate.js.org)
+
+## License
+
+MIT
