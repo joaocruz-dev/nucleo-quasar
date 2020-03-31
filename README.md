@@ -91,6 +91,37 @@ Request methods allowed.
 }
 ```
 
+## nucleo-quasar Msg
+
+Vue prototype $Msg.
+
+```javascript
+import { Msg } from 'nucleo-quasar'
+
+Msg(message, type, options)
+```
+
+## nucleo-quasar Alert
+
+Vue prototype $Alert.
+
+```javascript
+import { alert } from 'nucleo-quasar'
+
+alert(title, message, options)
+```
+
+## nucleo-quasar Delete
+
+Vue prototype $Delete.
+
+```javascript
+import { delet } from 'nucleo-quasar'
+
+delet(name, controller, data)
+  .then(data => ...)
+```
+
 ## Credits
 
 - [Quasar](https://quasar.dev)
