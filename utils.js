@@ -1,7 +1,8 @@
-import Api from './src/Api'
-import Scroll from './src/Scroll'
-import validate from './src/validate'
-import LoginToken from './src/LoginToken'
-import { Msg, Alert } from './src/message'
+import Api from './src/utils/Api'
+import Table from './src/utils/Table'
+import Scroll from './src/utils/Scroll'
+import validate from './src/utils/validate'
+import LoginToken from './src/utils/LoginToken'
+import { Msg, Alert } from './src/utils/message'
 
-export { Api, Scroll, validate, LoginToken, Msg, Alert }
+export { Api, Table, Scroll, validate, LoginToken, Msg, Alert }

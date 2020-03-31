@@ -1,4 +1,4 @@
-import { Api, Scroll, validate, LoginToken, Msg, Alert } from './utils'
+import { Api, Table, Scroll, validate, LoginToken, Msg, Alert } from './utils'
 
 let api = null
 let path = null
@@ -17,6 +17,8 @@ class NucleoQuasar {
     Vue.prototype.$path = path
 
     Vue.prototype.$Scroll = Scroll
+
+    Vue.prototype.$validate = validate
 
     loginToken = new LoginToken(optionsApi.loginFn)
 
@@ -47,4 +49,4 @@ class NucleoQuasar {
   }
 }
 
-export { NucleoQuasar, api, path, Scroll, validate, loginToken, Msg, alert, delet }
+export { NucleoQuasar, api, path, Table, Scroll, loginToken, Msg, alert, delet }
