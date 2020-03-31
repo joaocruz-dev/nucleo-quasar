@@ -30,7 +30,7 @@ export default class Api {
       ...options
     }
     if (options.loading) Loading.show()
-    this.createClient(this.host, options)
+    this.createClient(options)
     return new Promise((resolve, reject) => request(resolve, reject, options))
   }
 
