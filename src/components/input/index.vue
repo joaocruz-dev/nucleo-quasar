@@ -33,18 +33,12 @@ export default {
   computed: {
     model: {
       get () {
-        if (this.type === 'date') {
-          try {
-            return UtilsDate.dateToString(this.value, this.maskDate)
-          } catch (e) {
-            return ''
-          }
-        }
+        if (this.type === 'date') return this.value ? UtilsDate.dateToString(this.value, this.maskDate) : ''
         return this.value
       },
       set (val) {
         if (this.type === 'date') {
-          val = val.length < 10 ? null : UtilsDate.stringToString(val, this.maskDate)
+          val = val.length < this.maskDate.length ? null : UtilsDate.stringToString(val, this.maskDate)
           return this.$emit('input', val)
         }
         this.$emit('input', val)
