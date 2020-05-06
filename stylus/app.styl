@@ -1,0 +1,66 @@
+//MEDIA QUERIY MANAGER
+
+$breakpoint-xs = 576px
+$breakpoint-sm = 768px
+$breakpoint-md = 992px
+$breakpoint-lg = 1200px
+// $breakpoint-xl = infinite
+
+/*
+  0 - 600px:       Phone
+  600 - 900px:     Tablet portrait
+  900 - 1200:      Tablet landscape
+  [1200 - 1800]: is where our normal styles apply
+  1800px +:        Big desktop
+
+  $breakpoint arguement choices:
+    - Phone
+    - tab-port
+    - tab-land
+    - big-desktop
+
+  1em = 16px
+*/
+$phone       = 37.5em  //600px
+$tab-port    = 62.5em  //1000px
+$tab-land    = 75em    //1200px
+$big-desktop = 112.5em // > 1800px
+
+html
+  //This defines what 1rem is
+  font-size 62.5% // 1rem = 10px, 10/16 = 62.5%
+
+  @media (min-width $big-desktop)
+    font-size 67% // 1rem = 11.5px, 11.5/16 = 75%
+
+  @media (max-width $tab-land)
+    font-size 56.25% // 1rem = 9px, 9/16 = 56.25
+
+  @media (max-width $tab-port)
+    font-size 50% // 1rem = 8px, 8/16 = 50%
+
+  @media (max-width $phone)
+    font-size 48% // 1rem = 7.5px, 7.5/16 = 47%
+
+// Set Colors
+:root
+  // Light
+  --text-dark $text-dark
+  --text-light $text-light
+  --bg-dark $bg-dark
+  --bg-light $bg-light
+  // Dark
+  --dark-text-dark $dark-text-dark
+  --dark-text-light $dark-text-light
+  --dark-bg-dark $dark-bg-dark
+  --dark-bg-light $dark-bg-light
+
+.text-text-dark
+  color var(--text-dark)
+.text-text-light
+  color var(--text-light)
+
+.bg-bg-dark
+  background var(--bg-dark)
+.bg-bg-light
+  background var(--bg-light)

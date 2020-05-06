@@ -1,52 +1,93 @@
-import { Api, Table, Scroll, validate, LoginToken, Msg, Alert } from './utils'
+import { Api, Dark, Table, Scroll, Validate, UtilsDate, LoginToken, Msg, Alert, UtilsObject } from './utils'
+import Components from './components'
+import Vuelidate from 'vuelidate'
 
-let api = null
-let path = null
-let loginToken = null
-let alert = null
-let delet = null
+// Settigns options
+let _options = {
+  api: {},
+  alert: {},
+  delete: {}
+}
 
 class NucleoQuasar {
-  static install (Vue, options) {
+  static install (Vue, options = {}) {
+    _options = {
+      ..._options,
+      ...options
+    }
 
-    const optionsApi = options.api
-    const server = process.env.NODE_ENV === 'development' ? optionsApi.hostDev : optionsApi.hostProd
-    api = new Api(server, optionsApi.notFoundFn, optionsApi.unauthorizedFn)
-    Vue.prototype.$api = api
-    path = optionsApi.path
-    Vue.prototype.$path = path
+    Vue.prototype.$api = NucleoQuasar.Api
+    Vue.prototype.$path = NucleoQuasar.path
 
     Vue.prototype.$Scroll = Scroll
-
-    Vue.prototype.$validate = validate
-
-    loginToken = new LoginToken(optionsApi.loginFn)
+    Vue.prototype.$Validate = Validate
 
     Vue.prototype.$Msg = Msg
+    Vue.prototype.$Alert = NucleoQuasar.Alert
+    Vue.prototype.$Delete = NucleoQuasar.Delete
 
-    const optionsAlert = options.alert
-    alert = (title, message, options = {}) => {
-      options = {
-        ...optionsAlert,
-        ...options
-      }
-      return Alert(title, message, options)
-    }
-    Vue.prototype.$Alert = alert
+    Vue.use(Vuelidate)
+    // Vue.mixin({
+    //   created () {
+    //     this.$options.validateRules = Vue.observable({})
+    //   }
+    // })
+    // Vue.directive('validate', (el, binding, vnode) => {
+    //   const expression = vnode.data.model.expression.split('.')
+    //   let validateRules = vnode.context.$options.validateRules
+    //   expression.forEach((key, i) => {
+    //     if (expression.length === (i + 1)) {
+    //       validateRules[key] = binding.value
+    //       return
+    //     }
+    //     if (validateRules[key]) validateRules = validateRules[key]
+    //     else {
+    //       validateRules[key] = {}
+    //       validateRules = validateRules[key]
+    //     }
+    //   })
+    // })
 
-    const optionsDelete = options.delete
-    delet = (name, controller, data) => {
-      return new Promise((resolve, reject) => {
-        const message = name || 'o item selecionado'
-        alert('Excluir', `Tem certeza que deseja excluir ${message}?`, optionsDelete)
-          .onOk(() => {
-            api.delete(controller, data)
-              .then(data => resolve(data))
-          })
-      })
+    Components.add(Vue)
+  }
+
+  static get Api () {
+    const optionsApi = _options.api
+    const host = process.env.NODE_ENV === 'development' ? optionsApi.hostDev : optionsApi.hostProd
+    return new Api(host, optionsApi.notFoundFn, optionsApi.unauthorizedFn)
+  }
+
+  static get path () {
+    const optionsApi = _options.api
+    return optionsApi.path || {}
+  }
+
+  static get LoginToken () {
+    const optionsApi = _options.api
+    return new LoginToken(optionsApi.loginFn)
+  }
+
+  static Alert (title, message, options = {}) {
+    const optionsAlert = _options.alert
+    options = {
+      ...optionsAlert,
+      ...options
     }
-    Vue.prototype.$Delete = delet
+    return Alert(title, message, options)
+  }
+
+  static Delete (name, controller, data) {
+    const optionsDelete = _options.delete
+    return new Promise((resolve, reject) => {
+      const message = name || 'o item selecionado'
+      NucleoQuasar.Alert('Excluir', `Tem certeza que deseja excluir ${message}?`, optionsDelete)
+        .onOk(() => {
+          NucleoQuasar.Api.delete(controller, data)
+            .then(data => resolve(data))
+        })
+    })
   }
 }
 
-export { NucleoQuasar, api, path, Table, Scroll, loginToken, Msg, alert, delet }
+export { NucleoQuasar, Dark, Table, Scroll, UtilsDate, Msg, UtilsObject }
+export default NucleoQuasar

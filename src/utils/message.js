@@ -17,6 +17,7 @@ export const Alert = (title, message, options = {}) => {
     title,
     message,
     html: true,
+    persistent: false,
     ...options
   })
 }
