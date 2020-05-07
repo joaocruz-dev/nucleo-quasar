@@ -41,6 +41,7 @@ export default {
           val = val.length < this.maskDate.length ? null : UtilsDate.stringToString(val, this.maskDate)
           return this.$emit('input', val)
         }
+        if (this._type === 'number') return this.$emit('input', Number(val))
         this.$emit('input', val)
       }
     },
