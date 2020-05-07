@@ -136,17 +136,19 @@ export default {
               justify-content flex-start
             .title
               margin 0
+              display none
               font-weight 700
               font-size 1.8rem
               line-height 3rem
-              display none
+              padding-right 1rem
               @media (max-width $breakpoint-sm)
                 display block
             .paragraph
-              padding 0 1rem
               margin 0
+              padding 0 1rem
               @media (max-width $breakpoint-sm)
                 width auto
+                padding-left 0
         .others
           @media (max-width $breakpoint-sm)
             width 100%
