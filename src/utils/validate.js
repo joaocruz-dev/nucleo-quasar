@@ -3,6 +3,7 @@ import * as validators from 'vuelidate/lib/validators'
 const messages = {
   url: () => { return 'URL inválido.' },
   cpf: () => { return 'CPF inválido.' },
+  cep: () => { return 'CEP inválido.' },
   cnpj: () => { return 'CNPJ inválido.' },
   date: () => { return 'Data inválida.' },
   email: () => { return 'E-mail inválido.' },
