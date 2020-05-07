@@ -9,7 +9,7 @@ export default {
 
     tooltip: { type: String, default: null },
 
-    mask: { type: String, default: null },
+    mask: { type: String, default: '' },
     hint: { type: String, default: null },
     label: { type: String, default: null },
     autocomplete: { type: String, default: '' },
@@ -46,19 +46,21 @@ export default {
     },
     _type () {
       if (this.type === 'password') return this.isPwd ? 'password' : 'text'
+      if (this.type === 'cpf') return 'tel'
+      if (this.type === 'cep') return 'tel'
       if (this.type === 'date') return 'tel'
       if (this.type === 'time') return 'tel'
-      if (this.type === 'cpf') return 'tel'
-      if (this.type === 'tel') return 'tel'
       if (this.type === 'cnpj') return 'tel'
+      if (this.type === 'phone') return 'tel'
       if (this.type === 'percentage') return 'number'
       return this.type
     },
     _mask () {
       if (this.mask) return this.mask
+      if (this.type === 'cep') return '#####-###'
       if (this.type === 'date') return '##/##/####'
       if (this.type === 'cpf') return '###.###.###-##'
-      if (this.type === 'tel') return '(##) #####-####'
+      if (this.type === 'phone') return '(##) #####-####'
       if (this.type === 'cnpj') return '##.###.###/####-##'
       return ''
     },
