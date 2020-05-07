@@ -12,15 +12,14 @@ export default {
     validate: { type: Function, default: null },
     controller: { type: String, default: null },
 
+    title: { type: String, default: null },
     ok: { type: String, default: 'Salvar' },
     cancel: { type: String, default: 'Cancelar' },
-    title: { type: String, default: 'Formulário Padrão' },
 
     noOk: { type: Boolean, default: false },
     noClose: { type: Boolean, default: false },
     noCancel: { type: Boolean, default: false },
     noButtons: { type: Boolean, default: false },
-    noPadding: { type: Boolean, default: false },
 
     maximized: { type: Boolean, default: false },
     minWidth: { type: String, default: '50vw' }
@@ -68,7 +67,7 @@ export default {
     @keyup.esc="close('esc')" @hide="hide" @before-hide="beforeHide">
     <q-card :style="`min-width: ${minWidth}`" class="n-form">
       <q-card-section class="container">
-        <n-title :label="title"/>
+        <n-title :label="title" v-if="title"/>
 
         <div class="close" v-if="!noClose">
           <q-btn dense flat round icon="close" @click="close('close')">
@@ -76,7 +75,7 @@ export default {
           </q-btn>
         </div>
 
-        <form @submit.prevent="submitFn" :class="`form row ${noPadding ? 'no-padding' : ''}`">
+        <form @submit.prevent="submitFn" class="form row">
           <slot></slot>
           <button type="submit" class="submit"></button>
         </form>
@@ -108,6 +107,4 @@ export default {
     .actions
       padding-bottom 1rem
       padding-right 1.5rem
-    .no-padding
-      padding 0 !important
 </style>
