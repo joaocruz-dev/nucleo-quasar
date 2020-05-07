@@ -16,7 +16,9 @@ export default {
 
     dark: { type: Boolean, default: null },
     dense: { type: Boolean, default: null },
+    clear: { type: Boolean, default: false },
     filled: { type: Boolean, default: null },
+    filter: { type: Boolean, default: false },
     rounded: { type: Boolean, default: null },
     standout: { type: Boolean, default: null },
     multiple: { type: Boolean, default: false },
@@ -28,7 +30,8 @@ export default {
   },
   data: () => ({
     list: [],
-    loading: false
+    search: '',
+    update: false
   }),
   created () {
     this.updateFn()
@@ -61,7 +64,9 @@ export default {
       return this.options || this.list
     },
     _options () {
-      return this._list.map(obj => ({ label: this.labelFn(obj), value: this.valueFn(obj) }))
+      let options = this._list.map(obj => ({ label: this.labelFn(obj), value: this.valueFn(obj) }))
+      if (this.search) options = options.filter(p => p.label.toLowerCase().indexOf(this.search) > -1)
+      return options
     },
     _error () { return this.vlidate ? this.vlidate.$error : this.error },
     msgError () { return this._error ? this.errorMessage || this._error : '' }
@@ -69,11 +74,11 @@ export default {
   methods: {
     updateFn () {
       if (!this.controller) return
-      this.loading = true
+      this.update = true
       this.$api.get(this.controller, { loading: false })
         .then(data => {
           this.list = data
-          this.loading = false
+          this.update = false
           this.$emit('get', data)
         })
     },
@@ -83,9 +88,15 @@ export default {
     },
     labelFn (obj) { return UtilsObject.advancedField(obj, this.optionLabel) },
     valueFn (obj) { return UtilsObject.advancedField(obj, this.optionValue) },
-    blur () {
+    blurFn () {
       if (this.vlidate) this.vlidate.$touch()
       this.$emit('blur')
+    },
+    filterFn (val, update) {
+      val = val.toLowerCase()
+      update(() => {
+        this.search = val
+      })
     }
   },
   watch: {
@@ -97,10 +108,11 @@ export default {
 
 <template>
   <div class="n-select">
-    <q-select v-model="model" :label="label" :options="_options" :loading="loading" :multiple="multiple" :dark="dark"
+    <q-select v-model="model" :label="label" :options="_options" :loading="update" :multiple="multiple" :dark="dark"
       :use-chips="multiple" :dense="dense" :filled="filled" :rounded="rounded" :standout="standout"
+      :use-input="filter" :input-debounce="300"
       :error="!!_error" :error-message="msgError"
-      @blur="blur">
+      @blur="blurFn" @filter="filterFn">
 
       <template #no-option>
         <q-item>
@@ -108,6 +120,11 @@ export default {
             Sem registros
           </q-item-section>
         </q-item>
+      </template>
+
+      <template #append>
+        <q-icon name="close" class="cursor-pointer" @click="model = null" v-if="clear"/>
+        <slot name="append"></slot>
       </template>
 
       <template #after>
