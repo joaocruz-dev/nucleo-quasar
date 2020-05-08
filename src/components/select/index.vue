@@ -20,6 +20,7 @@ export default {
     filled: { type: Boolean, default: null },
     filter: { type: Boolean, default: false },
     rounded: { type: Boolean, default: null },
+    disable: { type: Boolean, default: false },
     standout: { type: Boolean, default: null },
     multiple: { type: Boolean, default: false },
     fullValue: { type: Boolean, default: false },
@@ -109,7 +110,7 @@ export default {
 <template>
   <div class="n-select">
     <q-select v-model="model" :label="label" :options="_options" :loading="update" :multiple="multiple" :dark="dark"
-      :use-chips="multiple" :dense="dense" :filled="filled" :rounded="rounded" :standout="standout"
+      :use-chips="multiple" :dense="dense" :filled="filled" :rounded="rounded" :standout="standout" :disable="disable"
       :use-input="filter" :input-debounce="300"
       :error="!!_error" :error-message="msgError"
       @blur="blurFn" @filter="filterFn">
