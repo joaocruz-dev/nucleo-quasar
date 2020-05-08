@@ -1,32 +1,41 @@
 <script>
 export default {
-  name: 'FExpansion',
+  name: 'NExpansion',
   props: {
-    label: { default: null },
-    icon: { default: null },
-    error: { default: null },
-    contentClass: { default: '' }
+    label: { type: String, default: null },
+    icon: { type: String, default: null },
+    group: { type: String, default: null },
+    error: { type: Boolean, default: false },
+    color: { type: String, default: 'text-light' }
   },
   computed: {
-    color () { return this.error ? 'negative' : 'primary' }
+    _color () { return this.error ? 'negative' : this.color }
   }
 }
 </script>
 
 <template>
-  <q-expansion-item group="f-expansion" :icon="icon" :label="label" :class="`text-${color} shadow-2`">
-    <q-card>
-      <q-card-section :class="contentClass">
-        <slot></slot>
-      </q-card-section>
-    </q-card>
+  <q-expansion-item :group="group" class="n-expansion">
+
+    <template v-slot:header>
+      <q-item-section avatar>
+        <q-icon :name="icon" :color="_color"/>
+      </q-item-section>
+
+      <q-item-section :class="`text-${_color}`">
+        {{ label }}
+      </q-item-section>
+    </template>
+
+    <div :class="`n-expansion__container text-${color}`">
+      <slot></slot>
+    </div>
+
   </q-expansion-item>
 </template>
 
-<style lang="stylus" scoped>
-  .q-expansion-item
-    .q-card
-      background transparent !important
-      .q-card__section
-        color $grey-9
+<style lang="stylus">
+  .n-expansion
+    &__container
+      padding 2rem
 </style>

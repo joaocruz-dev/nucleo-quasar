@@ -1,57 +1,44 @@
 <script>
 export default {
-  name: 'FGroupCheckbox',
+  name: 'NGroupCheckbox',
   props: {
     value: { type: Array, required: true },
     options: { type: Array, required: true }
   },
-  data: () => ({
-    model: []
-  }),
-  created () { this.set() },
-  methods: {
-    set () { this.model = this.value }
-  },
-  watch: {
+  computed: {
     model: {
-      handler: function () { this.$emit('input', this.model) },
-      deep: true
-    },
-    value () { this.set() }
+      get () { return this.value },
+      set (val) { this.$emit('input', this.model) }
+    }
   }
 }
 </script>
 
 <template>
-  <div class="f-group-checkbox">
-    <q-list bordered>
-      <f-expansion v-for="(m, i) in model" :key="`group-checkbox-${i}`" :icon="m.icon" :label="m.title"
+  <div class="n-group-checkbox">
+    <q-list bordered v-if="model.length">
+      <n-expansion v-for="(m, i) in model" :key="`group-checkbox-${i}`" :icon="m.icon" :label="m.label"
         group="group-checkbox">
-        <q-card>
-          <q-card-section>
-            <div v-for="(c, j) in m.checks" :key="`checkbox-${j}`" class="checkbox">
-              <h1 class="title">{{ c.title }}</h1>
-              <q-option-group v-model="c.model" type="checkbox" class="row" :options="options"/>
-            </div>
-          </q-card-section>
-        </q-card>
-      </f-expansion>
+
+        <div v-for="(c, j) in m.checks" :key="`checkbox-${j}`" class="n-group-checkbox__checkboxs">
+          <h1 class="title">{{ c.label }}</h1>
+          <q-option-group v-model="c.model" type="checkbox" :options="options" class="row"/>
+        </div>
+
+      </n-expansion>
     </q-list>
   </div>
 </template>
 
-<style lang="stylus" scoped>
-  .f-group-checkbox
+<style lang="stylus">
+  .n-group-checkbox
     width 100%
     margin-bottom 2rem
-    .q-card
-      box-shadow none
-      background transparent !important
-      .checkbox
-        padding 0 2rem
-        padding-bottom 2rem
-        .title
-          font-size 1.6rem
-          line-height 2rem
-          font-weight 400
+    &__checkboxs
+      padding 0 2rem
+      padding-bottom 2rem
+      .title
+        font-weight 400
+        font-size 1.6rem
+        line-height 2rem
 </style>
