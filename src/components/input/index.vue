@@ -73,8 +73,7 @@ export default {
       if (this.vlidate) this.vlidate.$touch()
       this.$emit('blur')
     },
-    keyup () { this.$emit('keyup') },
-    enter () { this.$emit('enter') }
+    keyup (value) { this.$emit('keyup', value) }
   }
 }
 </script>
@@ -84,7 +83,7 @@ export default {
     <q-input v-model="model" :label="label" :type="_type" :mask="_mask" :dark="dark" :autogrow="autogrow"
       :hint="hint" :stack-label="stackLabel" :autocomplete="autocomplete" :disable="disable" input-class=""
       :error="!!_error" :error-message="msgError"
-      @blur="blur" @keyup="keyup" @keyup.enter="enter">
+      @blur="blur" @keyup="keyup">
 
       <template v-slot:append>
         <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer"
