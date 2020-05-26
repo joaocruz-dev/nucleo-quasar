@@ -19,6 +19,9 @@ export default {
     autogrow: { type: Boolean, default: false },
     stackLabel: { type: Boolean, default: false },
 
+    icon: { type: String, default: null },
+    iconColor: { type: String, default: null },
+
     timeSeconds: { type: Boolean, default: false },
     optionsDate: { type: Function, default: (date) => { return true } },
 
@@ -85,7 +88,11 @@ export default {
       :error="!!_error" :error-message="msgError"
       @blur="blur" @keyup="keyup">
 
-      <template v-slot:append>
+      <template #prepend v-if="icon">
+        <q-icon :name="icon" :color="iconColor" v-if="icon"/>
+      </template>
+
+      <template #append>
         <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer"
           @click="isPwd = !isPwd" v-if="type == 'password'"/>
 
