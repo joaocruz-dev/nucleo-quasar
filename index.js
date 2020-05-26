@@ -5,15 +5,31 @@ import Vuelidate from 'vuelidate'
 // Settigns options
 let _options = {
   api: {},
-  alert: {},
-  delete: {}
+  alert: {
+    position: 'standard',
+    style: { backgroundColor: 'var(--bg-light)', color: 'var(--text-light)' },
+    ok: { color: 'primary', unelevated: true },
+    cancel: { color: 'text-dark', outline: true }
+  },
+  delete: {
+    position: 'left'
+  }
 }
 
 class NucleoQuasar {
   static install (Vue, options = {}) {
-    _options = {
-      ..._options,
-      ...options
+    _options.api = {
+      ..._options.api,
+      ...options.api
+    }
+    _options.alert = {
+      ..._options.alert,
+      ...options.alert
+    }
+    _options.delete = {
+      ..._options.alert,
+      ..._options.delete,
+      ...options.delete
     }
 
     Vue.prototype.$api = NucleoQuasar.Api
