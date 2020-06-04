@@ -12,6 +12,7 @@ export default {
     mask: { type: String, default: '' },
     hint: { type: String, default: null },
     label: { type: String, default: null },
+    step: { type: String, default: '0.01' },
     autocomplete: { type: String, default: '' },
 
     dark: { type: Boolean, default: null },
@@ -85,6 +86,7 @@ export default {
   <div class="n-input">
     <q-input v-model="model" :label="label" :type="_type" :mask="_mask" :dark="dark" :autogrow="autogrow"
       :hint="hint" :stack-label="stackLabel" :autocomplete="autocomplete" :disable="disable" input-class=""
+      :step="_type === 'number' ? step : null"
       :error="!!_error" :error-message="msgError"
       @blur="blur" @keyup="keyup">
 
