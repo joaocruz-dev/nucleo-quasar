@@ -107,7 +107,7 @@ export default {
       this.model.modal = true
     },
     editFn (data) {
-      this.model.selected = { ...data }
+      this.model.selected = JSON.parse(JSON.stringify(data))
       this.model.modal = true
     },
     deleteFn (data) {
