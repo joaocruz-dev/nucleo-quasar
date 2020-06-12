@@ -1,5 +1,6 @@
 <script>
 import NTableBtn from '../btn'
+import { UtilsObject } from '../../../../../utils'
 
 export default {
   name: 'NTableContainer',
@@ -18,7 +19,8 @@ export default {
       }, 10)
     },
     sortFn (column) { this.$emit('sort', column) },
-    emitFn (name, data) { this.$emit('event', { name, data }) }
+    emitFn (name, data) { this.$emit('event', { name, data }) },
+    extractFn (data, field) { return UtilsObject.advancedField(data, field) }
   },
   watch: {
     customButtons: {
@@ -58,9 +60,9 @@ export default {
           <div v-for="(column, j) in columns" :key="`item-${j}`"
             :class="`item row flex-center text-${column.align || 'center'} ${column.col} disable-${column.disable}`">
             <h1 class="title">{{ column.label }}:</h1>
-            <slot :name="column.field" v-bind:value="d[column.field]" v-bind:object="d" v-if="column.template"/>
-            <p class="paragraph col-12" v-else-if="column.format">{{ column.format(d[column.field], d) }}</p>
-            <p class="paragraph col-12" v-else>{{ d[column.field] }}</p>
+            <slot :name="column.field" v-bind:value="extractFn(d, column.field)" v-bind:object="d" v-if="column.template"/>
+            <p class="paragraph col-12" v-else-if="column.format">{{ column.format(extractFn(d, column.field), d) }}</p>
+            <p class="paragraph col-12" v-else>{{ extractFn(d, column.field) }}</p>
           </div>
         </div>
 
