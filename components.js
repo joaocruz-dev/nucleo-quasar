@@ -4,6 +4,7 @@ import NForm from './src/components/form'
 import NGroupCheckbox from './src/components/group-checkbox'
 import NInput from './src/components/input'
 import NSelect from './src/components/select'
+import NStatus from './src/components/status'
 import NTable from './src/components/table'
 import NTitle from './src/components/title'
 
@@ -15,6 +16,7 @@ export default class Components {
     Vue.component('NGroupCheckbox', NGroupCheckbox)
     Vue.component('NInput', NInput)
     Vue.component('NSelect', NSelect)
+    Vue.component('NStatus', NStatus)
     Vue.component('NTable', NTable)
     Vue.component('NTitle', NTitle)
   }
