@@ -179,6 +179,7 @@ export default {
         display none
 
   .button-action__menu
+    min-width 150px
     background-color var(--bg-light)
     .q-btn
       width 100%
