@@ -21,9 +21,8 @@ export default {
 <style lang="stylus">
   .n-btn
     .q-btn
-      font-size 1.4rem
+      width 100%
+      padding 0 2rem
       letter-spacing .5px
       text-transform inherit
-      padding 0 2rem
-      margin-left 2rem
 </style>
