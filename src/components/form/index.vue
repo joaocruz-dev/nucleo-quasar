@@ -15,6 +15,7 @@ export default {
     title: { type: String, default: null },
     ok: { type: String, default: 'Salvar' },
     cancel: { type: String, default: 'Cancelar' },
+    colorOk: { type: String, default: 'primary' },
 
     noOk: { type: Boolean, default: false },
     noClose: { type: Boolean, default: false },
@@ -83,7 +84,7 @@ export default {
 
       <q-card-actions align="right" v-if="!noButtons" class="actions">
         <n-btn :label="cancel" color="text-dark" outline @click="close('cancel')" v-if="!noCancel"/>
-        <n-btn :label="ok" @click="submitFn" v-if="!noOk"/>
+        <n-btn :label="ok" :color="colorOk" @click="submitFn" v-if="!noOk"/>
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -107,4 +108,6 @@ export default {
     .actions
       padding-bottom 1rem
       padding-right 1.5rem
+      .n-btn
+        margin-left 2rem
 </style>
