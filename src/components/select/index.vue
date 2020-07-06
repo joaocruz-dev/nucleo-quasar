@@ -11,8 +11,8 @@ export default {
     options: { type: Array, default: null },
     controller: { type: String, default: null },
 
-    optionLabel: { type: String, default: 'label' },
-    optionValue: { type: String, default: 'value' },
+    optionLabel: { type: [String, Function], default: 'label' },
+    optionValue: { type: [String, Function], default: 'value' },
 
     dark: { type: Boolean, default: null },
     dense: { type: Boolean, default: null },
@@ -87,8 +87,12 @@ export default {
       if (this.type === 'status') this.list = [{ label: 'Ativo', value: true }, { label: 'Inativo', value: false }]
       else if (this.type === 'yesOrNo') this.list = [{ label: 'Sim', value: true }, { label: 'Não', value: false }]
     },
-    labelFn (obj) { return UtilsObject.advancedField(obj, this.optionLabel) },
-    valueFn (obj) { return UtilsObject.advancedField(obj, this.optionValue) },
+    labelFn (obj) { return this.getOptionStringFn(obj, this.optionLabel) },
+    valueFn (obj) { return this.getOptionStringFn(obj, this.optionValue) },
+    getOptionStringFn (obj, key) {
+      if (typeof key === 'string') return UtilsObject.advancedField(obj, key)
+      if (typeof key === 'function') return key(obj)
+    },
     blurFn () {
       if (this.vlidate) this.vlidate.$touch()
       this.$emit('blur')
