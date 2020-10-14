@@ -5,7 +5,7 @@ export default {
   name: 'NSelect',
   props: {
     value: { required: true },
-    type: { type: String, default: null }, // status || yesOrNo
+    type: { type: String, default: null }, // status || yesOrNo || checkbox
     label: { type: String, default: null },
 
     options: { type: Array, default: null },
@@ -118,6 +118,17 @@ export default {
       :use-input="filter" :input-debounce="300"
       :error="!!_error" :error-message="msgError"
       @blur="blurFn" @filter="filterFn">
+
+      <template #option="scope" v-if="type === 'checkbox'">
+        <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
+          <q-item-section avatar>
+            <q-checkbox :value="scope.selected" @input="scope.itemEvents.click()"/>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label v-html="scope.opt.label"/>
+          </q-item-section>
+        </q-item>
+      </template>
 
       <template #no-option>
         <q-item>
