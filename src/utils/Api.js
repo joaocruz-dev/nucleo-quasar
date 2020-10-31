@@ -54,13 +54,14 @@ export default class Api {
   }
 
   error (err, options, reject) {
+    if (options.error === true) reject(err.response)
+
     if (!err.response) return this.connectionRefused()
     if (err.response.status === 404) return this.notFound()
     if (err.response.status === 401) return this.unauthorized()
 
     if (options.error === null) return Msg(err.response.data.message, false)
-    if (options.error) return reject(err.response)
-    console.error(err)
+    if (options.error === false) console.error(err)
   }
 
   get (path, options = {}) {
