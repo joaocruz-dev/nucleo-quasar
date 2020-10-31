@@ -54,7 +54,7 @@ export default class Api {
   }
 
   error (err, options, reject) {
-    if (options.error === true) reject(err.response)
+    if (options.error === true) reject(err)
 
     if (!err.response) return this.connectionRefused()
     if (err.response.status === 404) return this.notFound()
