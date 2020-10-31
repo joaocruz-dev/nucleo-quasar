@@ -4,7 +4,7 @@ export const Msg = (message = null, type = true, opt = {}) => {
   if (!message) message = type ? 'Sucesso' : 'Erro'
   const settings = {
     message,
-    time: type ? 3000 : 5000,
+    timeout: type ? 3000 : 5000,
     icon: type ? 'check_circle' : 'warning',
     color: type ? 'positive' : 'negative',
     ...opt
