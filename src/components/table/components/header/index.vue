@@ -28,7 +28,7 @@ export default {
       <div class="row flex-center">
         <div class="search row flex-center" v-if="search">
           {{ search }}
-          <dt-btn size="1rem" label="Cancelar" icon="close" @click="cleanFn"/>
+          <n-table-btn size="1rem" label="Cancelar" icon="close" @click="cleanFn"/>
         </div>
         <n-table-btn size="1.7rem" label="Pesquisar" icon="search" @click="searchFn" v-if="!noSearch"/>
         <n-table-btn size="1.7rem" label="Adicionar" icon="add" @click="addFn" v-if="!noAdd"/>
