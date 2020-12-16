@@ -1,22 +1,22 @@
 {
   "name": "nucleo-quasar",
-  "version": "2.1.9",
+  "version": "2.2.0",
   "license": "MIT",
   "main": "index.js",
-  "description": "Configurações base para projetos Quasar",
+  "description": "Base configurations for Quasar projects",
   "author": {
     "name": "João Cruz Araujo Neto",
     "email": "jcruzaraujoneto@outlook.com",
-    "homepage": "https://www.instagram.com/joao.cruz_"
+    "homepage": "https://earthtechnollogy.com"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Joao-CruzA/nucleo-quasar.git"
+    "url": "git+https://github.com/joaocruz-dev/nucleo-quasar.git"
   },
   "bugs": {
-    "url": "https://github.com/Joao-CruzA/nucleo-quasar/issues"
+    "url": "https://github.com/joaocruz-dev/nucleo-quasar/issues"
   },
-  "homepage": "https://github.com/Joao-CruzA/nucleo-quasar#readme",
+  "homepage": "https://github.com/joaocruz-dev/nucleo-quasar#readme",
   "dependencies": {
     "axios": "^0.18.1",
     "quasar": "^1.0.0",
