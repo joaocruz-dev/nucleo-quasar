@@ -1,6 +1,6 @@
 {
   "name": "nucleo-quasar",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "license": "MIT",
   "main": "index.js",
   "description": "Base configurations for Quasar projects",

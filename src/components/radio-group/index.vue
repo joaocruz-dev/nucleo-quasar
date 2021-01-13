@@ -20,7 +20,7 @@ export default {
   <div class="n-radio-group row justify-around">
 
     <n-radio v-for="(radio, i) in options" :key="`n-radio-${i}`" v-model="model"
-      :val="radio.val" :icon="radio.icon" :label="radio.label" :color="radio.color"/>
+      :val="radio.value" :icon="radio.icon" :label="radio.label" :color="radio.color"/>
 
   </div>
 </template>
