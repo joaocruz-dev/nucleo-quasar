@@ -5,7 +5,8 @@ export default {
   name: 'NRadioGroup',
   props: {
     value: { required: true },
-    options: { type: Array, required: true }
+    options: { type: Array, required: true },
+    contentClass: { type: String, default: '' }
   },
   computed: {
     model: {
@@ -20,7 +21,7 @@ export default {
   <div class="n-radio-group row justify-around">
 
     <n-radio v-for="(radio, i) in options" :key="`n-radio-${i}`" v-model="model"
-      :val="radio.value" :icon="radio.icon" :label="radio.label" :color="radio.color"/>
+      :val="radio.value" :icon="radio.icon" :label="radio.label" :color="radio.color" :class="contentClass"/>
 
   </div>
 </template>
