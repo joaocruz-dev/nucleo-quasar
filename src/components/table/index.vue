@@ -87,6 +87,7 @@ export default {
         .then(data => {
           this.data = data
           this.update = false
+          this.$emit('get', data)
         })
     },
     sortFn (column) {
