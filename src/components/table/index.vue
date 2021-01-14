@@ -155,7 +155,7 @@ export default {
       :no-delete="noDelete" :no-edit="noEdit" @sort="sortFn" @event="eventFn" v-if="pdata.length">
 
       <template v-for="column in columns" v-slot:[column.field]="props">
-        <slot :name="column.field" v-bind:value="props.value" v-bind:object="props.object"/>
+        <slot :name="column.field" v-bind:value="props.value" v-bind:object="props.object" v-bind:index="props.index"/>
       </template>
 
     </n-table-container>
