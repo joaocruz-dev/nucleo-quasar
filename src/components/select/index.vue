@@ -14,6 +14,9 @@ export default {
     optionLabel: { type: [String, Function], default: 'label' },
     optionValue: { type: [String, Function], default: 'value' },
 
+    color: { type: String, default: null },
+    bgColor: { type: String, default: null },
+
     dark: { type: Boolean, default: null },
     dense: { type: Boolean, default: null },
     clear: { type: Boolean, default: false },
@@ -115,7 +118,7 @@ export default {
   <div class="n-select">
     <q-select v-model="model" :label="label" :options="_options" :loading="update" :multiple="multiple" :dark="dark"
       :use-chips="multiple" :dense="dense" :filled="filled" :rounded="rounded" :standout="standout" :disable="disable"
-      :use-input="filter" :input-debounce="300"
+      :color="color" :bg-color="bgColor" :use-input="filter" :input-debounce="300"
       :error="!!_error" :error-message="msgError"
       @blur="blurFn" @filter="filterFn">
 

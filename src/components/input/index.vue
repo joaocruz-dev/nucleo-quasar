@@ -9,6 +9,9 @@ export default {
 
     tooltip: { type: String, default: null },
 
+    color: { type: String, default: null },
+    bgColor: { type: String, default: null },
+
     mask: { type: String, default: '' },
     hint: { type: String, default: null },
     label: { type: String, default: null },
@@ -86,7 +89,7 @@ export default {
   <div class="n-input">
     <q-input v-model="model" :label="label" :type="_type" :mask="_mask" :dark="dark" :autogrow="autogrow"
       :hint="hint" :stack-label="stackLabel" :autocomplete="autocomplete" :disable="disable" input-class=""
-      :step="_type === 'number' ? step : null"
+      :color="color" :bg-color="bgColor" :step="_type === 'number' ? step : null"
       :error="!!_error" :error-message="msgError"
       @blur="blur" @keyup="keyup">
 
