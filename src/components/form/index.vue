@@ -1,6 +1,4 @@
 <script>
-import { Screen } from 'quasar'
-
 export default {
   name: 'NForm',
   props: {
@@ -26,8 +24,14 @@ export default {
     minWidth: { type: String, default: '50vw' }
   },
   data: () => ({
-    close_name: null
+    close_name: null,
+    width: window.innerWidth
   }),
+  created () {
+    window.addEventListener('resize', () => {
+      this.width = window.innerWidth
+    })
+  },
   computed: {
     model: {
       get () { return this.value },
@@ -36,7 +40,7 @@ export default {
     full () {
       if (this.maximized === true) return true
       if (this.maximized === false) return false
-      return Screen.width <= 768
+      return this.width <= 768
     }
   },
   methods: {
