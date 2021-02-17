@@ -22,7 +22,7 @@ export default {
     noCancel: { type: Boolean, default: false },
     noButtons: { type: Boolean, default: false },
 
-    maximized: { type: Boolean, default: false },
+    maximized: { type: Boolean, default: null },
     minWidth: { type: String, default: '50vw' }
   },
   data: () => ({
@@ -34,9 +34,9 @@ export default {
       set (val) { this.$emit('input', val) }
     },
     full () {
-      if (this.maximized) return true
-      if (Screen.width <= 768) return true
-      return false
+      if (this.maximized === true) return true
+      if (this.maximized === false) return false
+      return Screen.width <= 768
     }
   },
   methods: {
@@ -64,7 +64,7 @@ export default {
 </script>
 
 <template>
-  <q-dialog v-model="model" persistent :maximized='full' transition-show="scale" transition-hide="scale"
+  <q-dialog v-model="model" persistent :maximized="full" transition-show="scale" transition-hide="scale"
     @keyup.esc="close('esc')" @hide="hide" @before-hide="beforeHide">
     <q-card :style="`min-width: ${minWidth}`" class="n-form">
       <q-card-section class="container">
