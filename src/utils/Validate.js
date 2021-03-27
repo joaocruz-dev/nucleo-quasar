@@ -6,6 +6,7 @@ const messages = {
   cep: () => { return 'CEP inválido.' },
   cnpj: () => { return 'CNPJ inválido.' },
   date: () => { return 'Data inválida.' },
+  color: () => { return 'Cor inválida.' },
   email: () => { return 'E-mail inválido.' },
   phone: () => { return 'Celular inválido.' },
   default: () => { return 'Campo inválido.' },

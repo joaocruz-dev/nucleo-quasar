@@ -60,6 +60,7 @@ export default {
       if (this.type === 'time') return 'tel'
       if (this.type === 'cnpj') return 'tel'
       if (this.type === 'phone') return 'tel'
+      if (this.type === 'color') return ''
       if (this.type === 'percentage') return 'number'
       return this.type
     },
@@ -113,6 +114,12 @@ export default {
           </q-popup-proxy>
         </q-icon>
 
+        <q-icon name="colorize" class="cursor-pointer" v-if="type == 'color'">
+          <q-popup-proxy transition-show="scale" transition-hide="scale">
+            <q-color :value="model" no-header class="picker" @input="model = $event.toUpperCase()"/>
+          </q-popup-proxy>
+        </q-icon>
+
         <div class="percentage" v-if="type == 'percentage'">
           %
         </div>
@@ -135,4 +142,8 @@ export default {
       font-size 2rem
       padding-top 1rem
       padding-right 2rem
+  .picker
+    width 250px
+    *
+      transition none
 </style>
