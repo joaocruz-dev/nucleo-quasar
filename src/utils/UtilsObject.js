@@ -1,10 +1,7 @@
 export default class UtilsObject {
   static advancedField (object, key) {
     const keys = key.split('.')
-    let data = object[keys[0]]
-    keys.shift()
-    keys.forEach(key => { data = data[key] })
-    return data
+    return keys.reduce((acc, x) => acc[x], object)
   }
 
   static extractInString (object) {
@@ -25,29 +22,3 @@ export default class UtilsObject {
     }
   }
 }
-
-// export function advancedField (object, key) {
-//   const keys = key.split('.')
-//   let data = object[keys[0]]
-//   keys.shift()
-//   keys.forEach(key => { data = data[key] })
-//   return data
-// }
-
-// export function extractInString (object) {
-//   let string = ''
-//   for (const key in object) {
-//     const type = typeof object[key]
-//     if (type === 'object') string += extractInString(object[key])
-//     else string += String(object[key]).toLowerCase()
-//   }
-//   return string
-// }
-
-// export function sortObject (field) {
-//   return (a, b) => {
-//     a = advancedField(a, field)
-//     b = advancedField(b, field)
-//     return (a > b) ? 1 : ((b > a) ? -1 : 0)
-//   }
-// }
