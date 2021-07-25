@@ -28,6 +28,7 @@ export default {
     width: window.innerWidth
   }),
   created () {
+    this.$q.loading.hide()
     window.addEventListener('resize', () => {
       this.width = window.innerWidth
     })
@@ -55,14 +56,16 @@ export default {
     },
     ajax () {
       this.$q.loading.show()
-      this.$api[this.method](this.controller, this.data, { error: this.error, loading: false })
+      this.$api[this.method](this.controller, this.data, { error: true, loading: false })
         .then(data => {
           this.$q.loading.hide()
           this.$emit('then', data)
         })
-        .catch(error => {
+        .catch(res => {
           this.$q.loading.hide()
-          this.$emit('catch', error)
+          if (this.error === true) return this.$emit('catch', res)
+          if (this.error === null) return this.$Msg(res.data.message, false)
+          console.error(res)
         })
     },
     hide () {
