@@ -70,7 +70,7 @@ class NucleoQuasar {
   static get Api () {
     const optionsApi = _options.api
     const host = process.env.NODE_ENV === 'development' ? optionsApi.hostDev : optionsApi.hostProd
-    return new Api(host, optionsApi.notFoundFn, optionsApi.unauthorizedFn)
+    return new Api(host, optionsApi.unauthorizedFn)
   }
 
   static get path () {
@@ -78,9 +78,8 @@ class NucleoQuasar {
     return optionsApi.path || {}
   }
 
-  static get LoginToken () {
-    const optionsApi = _options.api
-    return new LoginToken(optionsApi.loginFn)
+  static loginToken () {
+    return LoginToken.login(_options.api.loginFn)
   }
 
   static Alert (title, message, options = {}) {
@@ -105,5 +104,5 @@ class NucleoQuasar {
   }
 }
 
-export { NucleoQuasar, Dark, Table, Scroll, UtilsDate, Msg, UtilsObject }
 export default NucleoQuasar
+export { NucleoQuasar, Dark, Table, Scroll, UtilsDate, Msg, UtilsObject }
