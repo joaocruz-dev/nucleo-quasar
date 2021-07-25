@@ -54,9 +54,16 @@ export default {
       if (!this.validate || this.validate(this.ajax) === true) return this.ajax()
     },
     ajax () {
-      this.$api[this.method](this.controller, this.data, { error: this.error })
-        .then(data => this.$emit('then', data))
-        .catch(error => this.$emit('catch', error))
+      this.$q.loading.show()
+      this.$api[this.method](this.controller, this.data, { error: this.error, loading: false })
+        .then(data => {
+          this.$q.loading.hide()
+          this.$emit('then', data)
+        })
+        .catch(error => {
+          this.$q.loading.hide()
+          this.$emit('catch', error)
+        })
     },
     hide () {
       this.$emit('hide', this.close_name)
