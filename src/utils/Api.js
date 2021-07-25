@@ -1,106 +1,84 @@
-import { Loading, LocalStorage } from 'quasar'
 import axios from 'axios'
+import { Loading, LocalStorage } from 'quasar'
+
 import { Msg } from './message'
 
 export default class Api {
-  constructor (host, notFound, unauthorized) {
-    this.host = host
-    this.notFoundFn = notFound
-    this.unauthorizedFn = unauthorized
-    this.defaultOptions = {
+  constructor (baseURL, unauthorizedFn) {
+    this._baseURL = baseURL
+    this._unauthorizedFn = unauthorizedFn
+    this._options = {
       token: true,
       error: null,
-      loading: true
+      query: null,
+      loading: true,
+      response: false
     }
   }
 
-  createClient (options) {
-    axios.defaults.baseURL = this.host
-    axios.defaults.headers['Content-Type'] = 'application/json'
-    if (options.token) axios.defaults.headers.common.Authorization = `Bearer ${LocalStorage.getItem('token')}`
-    else if (axios.defaults.headers.common.Authorization) delete axios.defaults.headers.common.Authorization
-    axios.create({
-      baseURL: this.host
+  get (path, options) {
+    return this._client('GET', path, null, options)
+  }
+
+  post (path, data, options) {
+    return this._client('POST', path, data, options)
+  }
+
+  put (path, data, options) {
+    return this._client('PUT', path, data, options)
+  }
+
+  delete (path, data, options) {
+    return this._client('DELETE', path, data, options)
+  }
+
+  _client (method, path, data, options) {
+    if (!path) path = ''
+    if (!options) options = {}
+    options = { ...this._options, ...options }
+
+    if (options.loading) Loading.show()
+    path += this._objectToQuery(options.query)
+
+    return this._request(options, (api, resolve, reject) => {
+      api.request({ method, url: path, data })
+        .then(res => resolve(options.response ? res : res.data))
+        .catch(error => this._error(error, options, reject))
+        .finally(() => {
+          if (options.loading) Loading.hide()
+        })
     })
   }
 
-  start (request, options) {
-    options = {
-      ...this.defaultOptions,
-      ...options
+  _request (options, request) {
+    const api = axios.create({
+      baseURL: this._baseURL,
+      headers: { 'Content-Type': 'application/json' }
+    })
+    if (options.token) api.defaults.headers.Authorization = `Bearer ${LocalStorage.getItem('token')}`
+    return new Promise((resolve, reject) => request(api, resolve, reject))
+  }
+
+  _error ({ response }, options, reject) {
+    // Unauthorized function
+    if (response && response.status === 401 && this._unauthorizedFn) {
+      this._unauthorizedFn(response)
+      options.error = true
     }
-    if (options.loading) Loading.show()
-    this.createClient(options)
-    return new Promise((resolve, reject) => request(resolve, reject, options))
+
+    if (options.error === true) return reject(response)
+    if (options.error === false) return console.error(response)
+
+    if (!response) return Msg('Network Error', false)
+    if (response.status === 404 && !response.data.message) return Msg('Not Found', false)
+
+    if (response.data.message) return Msg(response.data.message, false)
+    return Msg('Not Message', false)
   }
 
-  end (options) {
-    if (options.loading) Loading.hide()
-  }
-
-  connectionRefused () {
-    Loading.hide()
-    Msg('Network Error', false)
-  }
-
-  notFound () {
-    Loading.hide()
-    if (this.notFoundFn) this.notFoundFn()
-  }
-
-  unauthorized () {
-    Loading.hide()
-    if (this.unauthorizedFn) this.unauthorizedFn()
-  }
-
-  error (err, options, reject) {
-    if (options.error === true) reject(err)
-
-    if (!err.response) return this.connectionRefused()
-    if (err.response.status === 404) return this.notFound()
-    if (err.response.status === 401) return this.unauthorized()
-
-    if (options.error === null) return Msg(err.response.data.message, false)
-    if (options.error === false) console.error(err)
-  }
-
-  get (path, options = {}) {
-    const request = (resolve, reject, options) => {
-      axios.get(path)
-        .then(resp => resolve(resp.data))
-        .catch(err => this.error(err, options, reject))
-        .finally(() => this.end(options))
-    }
-    return this.start(request, options)
-  }
-
-  post (path, data, options = {}) {
-    const request = (resolve, reject, options) => {
-      axios.post(path, data)
-        .then(resp => resolve(resp.data))
-        .catch(err => this.error(err, options, reject))
-        .finally(() => this.end(options))
-    }
-    return this.start(request, options)
-  }
-
-  put (path, data, options = {}) {
-    const request = (resolve, reject, options) => {
-      axios.put(path, data)
-        .then(resp => resolve(resp.data))
-        .catch(err => this.error(err, options, reject))
-        .finally(() => this.end(options))
-    }
-    return this.start(request, options)
-  }
-
-  delete (path, data, options = {}) {
-    const request = (resolve, reject, options) => {
-      axios.delete(path, { data })
-        .then(resp => resolve(resp.data))
-        .catch(err => this.error(err, options, reject))
-        .finally(() => this.end(options))
-    }
-    return this.start(request, options)
+  _objectToQuery (query) {
+    if (!query) query = {}
+    const str = Object.keys(query).map(x => `${encodeURIComponent(x)}=${encodeURIComponent(query[x])}`).join('&')
+    return str ? `?${str}` : ''
   }
 }
