@@ -60,7 +60,7 @@ export default {
           <div v-for="(column, j) in columns" :key="`item-${j}`"
             :class="`item row flex-center text-${column.align || 'center'} ${column.col} disable-${column.disable}`">
             <h1 class="title">{{ column.label }}:</h1>
-            <slot :name="column.field" v-bind:value="extractFn(d, column.field)" v-bind:object="d" v-bind:index="i" v-if="column.template"/>
+            <slot :name="column.field" :value="extractFn(d, column.field)" :object="d" :index="i" v-if="column.template"/>
             <p class="paragraph col-12" v-else-if="column.format">{{ column.format(extractFn(d, column.field), d) }}</p>
             <p class="paragraph col-12" v-else>{{ extractFn(d, column.field) }}</p>
           </div>

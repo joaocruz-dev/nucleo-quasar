@@ -31,7 +31,9 @@ export default {
       ]
     },
 
-    filter: { type: Function, default: null },
+    filter: { type: [Function, Object], default: null },
+    // modalFilter: { type: Boolean, default: false },
+    externalFilter: { type: Boolean, default: false },
 
     noAdd: { type: Boolean, default: false },
     noEdit: { type: Boolean, default: false },
@@ -42,52 +44,75 @@ export default {
   data: () => ({
     page: 1,
     size: 5,
+    totalCount: 0,
+
     search: '',
-    update: false,
     columnSort: null,
-    reverseSort: false
+    reverseSort: false,
+
+    updating: false
   }),
-  created () {
-    this.updateFn()
-  },
+  created () { this.updateFn() },
   computed: {
     model: {
       get () { return this.value },
       set (val) { this.$emit('input', val) }
     },
+
     data: {
       get () { return this.model.data },
       set (val) { this.model.data = val }
     },
+
     filteredData () {
       let data = [...this.data]
-      if (this.filter) data = data.filter(this.filter)
-      if (this.search) data = Table.searchText(data, this.search)
+
+      if (!this.externalFilter && this.filter) data = data.filter(this.filter)
+      if (!this.externalFilter && this.search) data = Table.filterOfText(data, this.search)
+
       if (this.columnSort) {
-        const field = this.columnSort.field
         let sort = null
+        const field = this.columnSort.field
         if (this.columnSort.sort) sort = (a, b) => this.columnSort.sort(UtilsObject.advancedField(a, field), UtilsObject.advancedField(b, field), a, b)
         data.sort(sort || UtilsObject.sortObject(field))
       }
       if (this.reverseSort) data.reverse()
+
       return data
     },
     pdata () {
-      const position = this.size * this.page
+      if (this.externalFilter) return this.filteredData
+
+      const position = this.page * this.size
       return this.filteredData.slice(position - this.size, position)
     },
-    total () { return this.filteredData.length },
-    max () { return Math.ceil(this.filteredData.length / this.size) || 1 }
+
+    total () {
+      if (this.externalFilter) return this.totalCount
+      return this.filteredData.length
+    },
+    max () { return Math.ceil(this.total / this.size) || 1 }
   },
   methods: {
     updateFn () {
-      if (!this.controller || this.update) return
-      this.update = true
-      this.$api.get(this.controller)
-        .then(data => {
+      if (!this.controller || this.updating) return
+      this.updating = true
+
+      let query = {}
+      if (this.externalFilter) {
+        if (this.filter) query = { ...this.filter }
+
+        query.size = this.size
+        query.page = this.page - 1
+        if (this.search) query.text = this.search
+      }
+
+      this.$api.get(this.controller, { response: true, query })
+        .then(({ data, headers }) => {
           this.data = data
-          this.update = false
+          this.updating = false
           this.$emit('get', data)
+          if (this.externalFilter) this.totalCount = headers['x-total-count']
         })
     },
     sortFn (column) {
@@ -136,7 +161,21 @@ export default {
       this.updateFn()
       this.model.reload = false
     },
-    controller () { this.updateFn() }
+    page () {
+      if (this.externalFilter) this.updateFn()
+    },
+    size () {
+      if (this.externalFilter) this.updateFn()
+    },
+    search () {
+      if (this.externalFilter) {
+        this.page = 1
+        this.updateFn()
+      }
+    },
+    filter () { this.updateFn() },
+    controller () { this.updateFn() },
+    externalFilter () { this.updateFn() }
   }
 }
 </script>
@@ -156,7 +195,7 @@ export default {
       :no-delete="noDelete" :no-edit="noEdit" @sort="sortFn" @event="eventFn" v-if="pdata.length">
 
       <template v-for="column in columns" v-slot:[column.field]="props">
-        <slot :name="column.field" v-bind:value="props.value" v-bind:object="props.object" v-bind:index="props.index"/>
+        <slot :name="column.field" :value="props.value" :object="props.object" :index="props.index"/>
       </template>
 
     </n-table-container>
