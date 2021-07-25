@@ -15,11 +15,12 @@ export default class Table {
     this.selecteds = selecteds
   }
 
-  static searchText (array, text) {
+  static filterOfText (array, text) {
+    text = text.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
+    const regExp = new RegExp(text, 'i')
     return array.filter(data => {
-      const string = UtilsObject.extractInString(data)
-      const index = string.indexOf(text.toLowerCase())
-      return index > -1
+      data = JSON.stringify(data).replace(/"[a-zA-Z0-9_-]*":/gi, '')
+      return regExp.test(data)
     })
   }
 }
