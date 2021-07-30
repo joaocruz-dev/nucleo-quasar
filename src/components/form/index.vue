@@ -28,7 +28,6 @@ export default {
     width: window.innerWidth
   }),
   created () {
-    this.$q.loading.hide()
     window.addEventListener('resize', () => {
       this.width = window.innerWidth
     })
