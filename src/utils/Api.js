@@ -61,7 +61,7 @@ export default class Api {
 
   _error ({ response }, options, reject) {
     // Unauthorized function
-    if (response && response.status === 401 && this._unauthorizedFn) {
+    if (response && response.status === 403 && this._unauthorizedFn) {
       this._unauthorizedFn(response)
       options.error = true
     }
