@@ -62,8 +62,8 @@ export default class Api {
   _error ({ response }, options, reject) {
     // Unauthorized function
     if (response && response.status === 403 && this._unauthorizedFn) {
-      this._unauthorizedFn(response)
-      options.error = true
+      Loading.hide()
+      return this._unauthorizedFn(response)
     }
 
     if (options.error === true) return reject(response)
@@ -73,7 +73,7 @@ export default class Api {
     if (response.status === 404 && !response.data.message) return Msg('Not Found', false)
 
     if (response.data.message) return Msg(response.data.message, false)
-    return Msg('Not Message', false)
+    return Msg('Error without message', false)
   }
 
   _objectToQuery (query) {
