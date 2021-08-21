@@ -59,20 +59,22 @@ export default class Api {
     return new Promise((resolve, reject) => request(api, resolve, reject))
   }
 
-  _error ({ response }, options, reject) {
+  _error (error, options, reject) {
+    error = error.response || error
+
     // Unauthorized function
-    if (response && response.status === 403 && this._unauthorizedFn) {
+    if (error && error.status === 403 && this._unauthorizedFn) {
       Loading.hide()
-      return this._unauthorizedFn(response)
+      return this._unauthorizedFn(error)
     }
 
-    if (options.error === true) return reject(response)
-    if (options.error === false) return console.error(response)
+    if (options.error === true) return reject(error)
+    if (options.error === false) return console.error(error)
 
-    if (!response) return Msg('Network Error', false)
-    if (response.status === 404 && !response.data.message) return Msg('Not Found', false)
+    if (!error) return Msg('Network Error', false)
+    if (error.status === 404 && !error.data.message) return Msg('Not Found', false)
 
-    if (response.data.message) return Msg(response.data.message, false)
+    if (error.data.message) return Msg(error.data.message, false)
     return Msg('Error without message', false)
   }
 
