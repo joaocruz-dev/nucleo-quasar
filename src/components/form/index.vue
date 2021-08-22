@@ -63,7 +63,7 @@ export default {
         .catch(res => {
           this.$q.loading.hide()
           if (this.error === true) return this.$emit('catch', res)
-          if (this.error === null) return this.$Msg(res.data.message, false)
+          if (this.error === null) return this.$Msg((res.data || res).message, false)
           console.error(res)
         })
     },
