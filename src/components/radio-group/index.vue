@@ -1,6 +1,4 @@
 <script>
-import { colors } from 'quasar'
-
 export default {
   name: 'NRadioGroup',
   props: {
@@ -21,7 +19,7 @@ export default {
   <div class="n-radio-group row justify-around">
 
     <n-radio v-for="(radio, i) in options" :key="`n-radio-${i}`" v-model="model"
-      :val="radio.value" :icon="radio.icon" :label="radio.label" :color="radio.color" :class="contentClass"/>
+      :val="radio.value" :icon="radio.icon" :label="radio.label" :color="radio.color" :disable="!!radio.disable" :class="contentClass"/>
 
   </div>
 </template>

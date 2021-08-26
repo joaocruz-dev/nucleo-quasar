@@ -9,7 +9,9 @@ export default {
 
     icon: { type: String, required: true },
     label: { type: String, required: true },
-    color: { type: String, default: 'primary' }
+    color: { type: String, default: 'primary' },
+
+    disable: { type: Boolean, default: false }
   },
   computed: {
     model: {
@@ -17,10 +19,13 @@ export default {
       set (val) { this.$emit('input', val) }
     },
     isActive () { return this.model === this.val },
-    hexColor () { return colors.getPaletteColor(this.color) }
+
+    _color () { return this.disable ? 'negative' : this.color },
+    hexColor () { return colors.getPaletteColor(this._color) }
   },
   methods: {
     setValueFn () {
+      if (this.disable) return
       this.model = this.val
     }
   }
@@ -29,10 +34,8 @@ export default {
 
 <template>
   <div class="n-radio" @click="setValueFn">
-    <div
-      :class="`container ${isActive ? `text-white bg-${color}` : `text-${color}`} row flex-center`"
-      :style="`border: 2px solid ${hexColor};`"
-    >
+    <div :style="`border: 2px solid ${hexColor};`"
+      :class="`container ${isActive ? `text-white bg-${_color}` : `text-${_color}`} ${disable ? 'disable' : ''} row flex-center`">
       <q-icon :name="icon"/>
       <h1 class="label col-8">{{label}}</h1>
     </div>
@@ -61,4 +64,6 @@ export default {
         font-weight 500
         line-height 2rem
         text-align center
+    .disable
+      cursor not-allowed
 </style>
