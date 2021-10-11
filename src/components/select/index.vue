@@ -1,5 +1,5 @@
 <script>
-import { UtilsObject } from '../../../utils'
+import { Utils } from '../../tools'
 
 export default {
   name: 'NSelect',
@@ -93,7 +93,7 @@ export default {
     labelFn (obj) { return this.getOptionStringFn(obj, this.optionLabel) },
     valueFn (obj) { return this.getOptionStringFn(obj, this.optionValue) },
     getOptionStringFn (obj, key) {
-      if (typeof key === 'string') return UtilsObject.advancedField(obj, key)
+      if (typeof key === 'string') return Utils.getObjectValue(key, obj)
       if (typeof key === 'function') return key(obj)
     },
     blurFn () {

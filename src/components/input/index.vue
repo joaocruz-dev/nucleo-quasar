@@ -1,5 +1,5 @@
 <script>
-import { UtilsDate } from '../../../utils'
+import { date } from 'quasar'
 
 export default {
   name: 'NInput',
@@ -40,12 +40,12 @@ export default {
   computed: {
     model: {
       get () {
-        if (this.type === 'date') return this.value ? UtilsDate.dateToString(this.value, this.maskDate) : ''
+        if (this.type === 'date') return this.value ? date.formatDate(this.value, this.maskDate) : ''
         return this.value
       },
       set (val) {
         if (this.type === 'date') {
-          val = val.length < this.maskDate.length ? null : UtilsDate.stringToString(val, this.maskDate)
+          val = val.length < this.maskDate.length ? null : date.extractDate(val, this.maskDate).toISOString()
           return this.$emit('input', val)
         }
         if (this._type === 'number') return this.$emit('input', Number(val))

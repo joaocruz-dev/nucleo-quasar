@@ -1,6 +1,6 @@
 <script>
 import NTableBtn from '../btn'
-import { UtilsObject } from '../../../../../utils'
+import { Utils } from '../../../../tools'
 
 export default {
   name: 'NTableContainer',
@@ -20,7 +20,7 @@ export default {
     },
     sortFn (column) { this.$emit('sort', column) },
     emitFn (name, data) { this.$emit('event', { name, data }) },
-    extractFn (data, field) { return UtilsObject.advancedField(data, field) }
+    extractFn (data, field) { return Utils.getObjectValue(field, data) }
   },
   watch: {
     customButtons: {
@@ -54,7 +54,7 @@ export default {
 
     <div class="n-table-container__data">
 
-      <div v-for="(d, i) in data" :key="`data-${i}`" class="data row items-center shadow-5">
+      <div v-for="(d, i) in data" :key="`data-${i}`" class="data row items-center">
 
         <div class="items row items-center col">
           <div v-for="(column, j) in columns" :key="`item-${j}`"
@@ -74,8 +74,8 @@ export default {
 
           <div class="buttons">
             <div :id="`NTableContainer-ButtonAction-${i}`" class="row flex-center" v-if="ifButtons">
-              <n-table-btn label="Excluir" icon="delete" color="negative" @click="emitFn('delete', d)" v-if="!noDelete"/>
-              <n-table-btn label="Editar" icon="edit" color="text-dark" @click="emitFn('edit', d)" v-if="!noEdit"/>
+              <n-table-btn label="Excluir" icon="o_delete" color="negative" @click="emitFn('delete', d)" v-if="!noDelete"/>
+              <n-table-btn label="Editar" icon="o_edit" color="text-dark" @click="emitFn('edit', d)" v-if="!noEdit"/>
               <n-table-btn label="Outros" icon="more_vert" color="text-dark" v-if="customButtons.length">
                 <q-menu>
                   <div class="button-action__menu">
@@ -126,7 +126,10 @@ export default {
         margin-top 1rem
         padding 3rem 2rem
         border-radius 1rem
+        border 1px solid $accent
         background-color var(--bg-light)
+        &:hover
+          box-shadow 0px 0px 30px rgba(#000, 0.1)
         .items
           @media (max-width $breakpoint-sm)
             flex none

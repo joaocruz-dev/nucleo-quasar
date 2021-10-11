@@ -2,19 +2,22 @@
 export default {
   name: 'NBtn',
   props: {
-    label: { type: String, default: null },
-    color: { type: String, default: 'primary' },
-    outline: { type: Boolean, default: false }
+    label: { type: String, required: true },
+
+    icon: { type: String, default: void 0 },
+    color: { type: String, default: 'text-dark' }
   },
   methods: {
-    click () { this.$emit('click') }
+    clickFn () { this.$emit('click') }
   }
 }
 </script>
 
 <template>
   <div class="n-btn">
-    <q-btn :label="label" :color="color" :outline="outline" unelevated @click="click"/>
+    <q-btn :label="label" :icon-right="icon" :color="color" flat @click="clickFn">
+      <slot></slot>
+    </q-btn>
   </div>
 </template>
 
@@ -22,7 +25,7 @@ export default {
   .n-btn
     .q-btn
       width 100%
-      padding 0 2rem
-      letter-spacing .5px
+      min-width 100px
       text-transform inherit
+      border 1px solid $accent
 </style>

@@ -1,8 +1,9 @@
 <script>
+import { Table, Utils } from '../../tools'
+
 import NTableHeader from './components/header'
-import NTableContainer from './components/container'
 import NTableFooter from './components/footer'
-import { Table, UtilsObject } from '../../../utils'
+import NTableContainer from './components/container'
 
 export default {
   name: 'NTable',
@@ -73,8 +74,8 @@ export default {
       if (this.columnSort) {
         let sort = null
         const field = this.columnSort.field
-        if (this.columnSort.sort) sort = (a, b) => this.columnSort.sort(UtilsObject.advancedField(a, field), UtilsObject.advancedField(b, field), a, b)
-        data.sort(sort || UtilsObject.sortObject(field))
+        if (this.columnSort.sort) sort = (a, b) => this.columnSort.sort(Utils.getObjectValue(field, a), Utils.getObjectValue(field, b), a, b)
+        data.sort(sort || Utils.sortObject(field))
       }
       if (this.reverseSort) data.reverse()
 
@@ -138,7 +139,7 @@ export default {
       this.model.modal = true
     },
     deleteFn (data) {
-      const message = this.deleteField ? UtilsObject.advancedField(data, this.deleteField) : null
+      const message = this.deleteField ? Utils.getObjectValue(this.deleteField, data) : null
       this.$Delete(message, this.controller, data)
         .then(data => {
           this.updateFn()

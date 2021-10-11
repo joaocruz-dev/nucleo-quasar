@@ -1,6 +1,6 @@
-import { Api, Dark, Table, Scroll, Validate, UtilsDate, LoginToken, Msg, Alert, UtilsObject } from './utils'
-import Components from './components'
 import Vuelidate from 'vuelidate'
+import Components from './src/components'
+import { Api, Dark, Table, Utils, Validate, LoginToken, Msg, Alert } from './src/tools'
 
 // Settigns options
 let _options = {
@@ -35,7 +35,6 @@ class NucleoQuasar {
     Vue.prototype.$api = NucleoQuasar.Api
     Vue.prototype.$path = NucleoQuasar.path
 
-    Vue.prototype.$Scroll = Scroll
     Vue.prototype.$Validate = Validate
 
     Vue.prototype.$Msg = Msg
@@ -43,27 +42,6 @@ class NucleoQuasar {
     Vue.prototype.$Delete = NucleoQuasar.Delete
 
     Vue.use(Vuelidate)
-    // Vue.mixin({
-    //   created () {
-    //     this.$options.validateRules = Vue.observable({})
-    //   }
-    // })
-    // Vue.directive('validate', (el, binding, vnode) => {
-    //   const expression = vnode.data.model.expression.split('.')
-    //   let validateRules = vnode.context.$options.validateRules
-    //   expression.forEach((key, i) => {
-    //     if (expression.length === (i + 1)) {
-    //       validateRules[key] = binding.value
-    //       return
-    //     }
-    //     if (validateRules[key]) validateRules = validateRules[key]
-    //     else {
-    //       validateRules[key] = {}
-    //       validateRules = validateRules[key]
-    //     }
-    //   })
-    // })
-
     Components.add(Vue)
   }
 
@@ -105,4 +83,4 @@ class NucleoQuasar {
 }
 
 export default NucleoQuasar
-export { NucleoQuasar, Dark, Table, Scroll, UtilsDate, Msg, UtilsObject }
+export { NucleoQuasar, Api, Dark, Table, Utils, Msg }

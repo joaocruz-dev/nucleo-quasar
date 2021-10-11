@@ -52,11 +52,10 @@ export default {
     padding 2rem 3rem
     color var(--text-dark)
     .title
-      color $primary
-      font-weight 500
-      font-size 2.8rem
+      font-weight 400
+      font-size 2.7rem
       line-height 3rem
-      text-transform uppercase
+      color var(--text-dark)
     .search
       padding .2rem 0
       font-weight 300
@@ -83,7 +82,8 @@ export default {
         .q-field__marginal
           color #fff
     .sub-title
-      font-weight 300
-      font-size 1.8rem
+      font-weight 400
+      font-size 1.7rem
       line-height 2rem
+      color var(--text-light)
 </style>

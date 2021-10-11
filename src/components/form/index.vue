@@ -1,4 +1,7 @@
 <script>
+const ok = { label: 'Salvar', color: 'primary', icon: 'done' }
+const cancel = { label: 'Cancelar', color: 'text-dark', icon: void 0 }
+
 export default {
   name: 'NForm',
   props: {
@@ -11,49 +14,39 @@ export default {
     controller: { type: String, default: null },
 
     title: { type: String, default: null },
-    ok: { type: String, default: 'Salvar' },
-    cancel: { type: String, default: 'Cancelar' },
-    colorOk: { type: String, default: 'primary' },
+    goBack: { type: Boolean, default: false },
+
+    ok: { type: Object, default: () => {} },
+    cancel: { type: Object, default: () => {} },
 
     noOk: { type: Boolean, default: false },
     noClose: { type: Boolean, default: false },
     noCancel: { type: Boolean, default: false },
-    noButtons: { type: Boolean, default: false },
 
-    maximized: { type: Boolean, default: null },
-    minWidth: { type: String, default: '50vw' }
-  },
-  data: () => ({
-    close_name: null,
-    width: window.innerWidth
-  }),
-  created () {
-    window.addEventListener('resize', () => {
-      this.width = window.innerWidth
-    })
+    contentClass: { type: String, default: 'col-lg-8 col-md-9 col-sm-12 col-xs-12' }
   },
   computed: {
     model: {
       get () { return this.value },
       set (val) { this.$emit('input', val) }
     },
-    full () {
-      if (this.maximized === true) return true
-      if (this.maximized === false) return false
-      return this.width <= 768
-    }
+
+    btnOk () { return { ...ok, ...this.ok } },
+    btnCancel () { return { ...cancel, ...this.cancel } }
   },
   methods: {
-    close (name) {
-      this.$emit(name)
-      this.close_name = name
+    hideFn () {
+      this.$emit('hide')
+    },
+    closeFn () {
       this.model = false
     },
+
     submitFn () {
       if (!this.method || !this.controller) return this.$emit('submit')
-      if (!this.validate || this.validate(this.ajax) === true) return this.ajax()
+      if (!this.validate || this.validate(this.ajaxFn) === true) return this.ajaxFn()
     },
-    ajax () {
+    ajaxFn () {
       this.$q.loading.show()
       this.$api[this.method](this.controller, this.data, { error: true, loading: false })
         .then(data => {
@@ -66,61 +59,63 @@ export default {
           if (this.error === null) return this.$Msg((res.data || res).message, false)
           console.error(res)
         })
-    },
-    hide () {
-      this.$emit('hide', this.close_name)
-      this.close_name = null
-    },
-    beforeHide () { this.$emit('before-hide') }
+    }
   }
 }
 </script>
 
 <template>
-  <q-dialog v-model="model" persistent :maximized="full" transition-show="scale" transition-hide="scale"
-    @keyup.esc="close('esc')" @hide="hide" @before-hide="beforeHide">
-    <q-card :style="`min-width: ${minWidth}`" class="n-form">
-      <q-card-section class="container">
-        <n-title :label="title" v-if="title"/>
+  <q-dialog v-model="model" maximized position="right" @hide="hideFn">
+    <div class="n-form row justify-end" @click="closeFn">
+      <div :class="`n-form_container ${contentClass}`" @click.stop="">
 
-        <div class="close" v-if="!noClose">
-          <q-btn dense flat round icon="close" @click="close('close')">
-            <q-tooltip content-class="">Fechar</q-tooltip>
-          </q-btn>
+        <div class="n-form_header row items-center">
+          <n-action :icon="goBack ? 'west' : 'close'" @click="closeFn" v-if="!noClose"/>
+          <h1 class="title">{{title}}</h1>
         </div>
 
-        <form @submit.prevent="submitFn" class="form row">
+        <form @submit.prevent="submitFn" class="n-form_form row">
           <slot></slot>
-          <button type="submit" class="submit"></button>
+          <button type="submit" class="n-form_form--submit"></button>
         </form>
-      </q-card-section>
 
-      <q-card-actions align="right" v-if="!noButtons" class="actions">
-        <n-btn :label="cancel" color="text-dark" outline @click="close('cancel')" v-if="!noCancel"/>
-        <n-btn :label="ok" :color="colorOk" @click="submitFn" v-if="!noOk"/>
-      </q-card-actions>
-    </q-card>
+        <div class="n-form_buttons row justify-end">
+          <n-btn :label="btnCancel.label" :color="btnCancel.color" @click="closeFn" v-if="!noCancel"/>
+          <n-btn :label="btnOk.label" :color="btnOk.color" :icon="btnOk.icon" @click="submitFn" v-if="!noOk"/>
+        </div>
+
+      </div>
+    </div>
   </q-dialog>
 </template>
 
 <style lang="stylus">
   .n-form
-    position relative
-    background-color var(--bg-light)
-    .container
-      padding 0
-      .close
-        top 0
-        right 0
-        margin .5rem
-        position absolute
-      .form
-        padding 2rem
-        .submit
-          display none
-    .actions
-      padding-bottom 1rem
-      padding-right 1.5rem
+    min-width 100vw
+    box-shadow none !important
+    border-radius 0 !important
+    &_container
+      position relative
+      background-color var(--bg-dark)
+      box-shadow 0px 0px 30px rgba(#000, 0.15)
+    &_header
+      padding 1rem
+      border-bottom 1px solid $accent
+      background-color var(--bg-light)
+      .title
+        margin 0
+        font-size 2rem
+        font-weight 400
+        line-height 3rem
+        margin-left 1rem
+        color var(--text-dark)
+    &_form
+      padding 2rem
+      &--submit
+        display none
+    &_buttons
+      padding 2rem
+      padding-top 0
       .n-btn
-        margin-left 2rem
+        margin 0 1rem
 </style>
