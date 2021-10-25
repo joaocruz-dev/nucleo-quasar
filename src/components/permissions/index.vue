@@ -65,7 +65,8 @@ export default {
   .n-permissions
     width 100%
     padding 0 1rem
-    background-color var(--bg-light)
+    .q-list
+      background-color var(--bg-light)
     &_group
       padding 0 2rem
       &--label
