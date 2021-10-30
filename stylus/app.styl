@@ -1,38 +1,36 @@
 /*
-  0 - 600px:       Phone
-  600 - 900px:     Tablet portrait
-  900 - 1200:      Tablet landscape
-  [1200 - 1800]: is where our normal styles apply
-  1800px +:        Big desktop
+  0 - 576px:       Phone
+  576 - 768px:     Tablet portrait
+  768 - 992px:     Tablet landscape
+  992 - 1200px:    Mini Desktop
+  1200 - 1920px:   Normal styles apply
+  1920px +:        Big desktop
 
   $breakpoint arguement choices:
-    - Phone
-    - tab-port
-    - tab-land
-    - big-desktop
+    - Phone - breakpoint-xs
+    - tab-port - breakpoint-sm
+    - tab-land - breakpoint-md
+    - normal-style - breakpoint-lg
+    - big-desktop - breakpoint-xl
 
   1em = 16px
 */
-$phone       = 37.5em  //600px
-$tab-port    = 62.5em  //1000px
-$tab-land    = 75em    //1200px
-$big-desktop = 112.5em // > 1800px
 
 html
   //This defines what 1rem is
   font-size 62.5% // 1rem = 10px, 10/16 = 62.5%
 
-  @media (min-width $big-desktop)
-    font-size 67% // 1rem = 11.5px, 11.5/16 = 75%
+  @media (min-width $breakpoint-xl)
+    font-size 75% // 1rem = 11.2px, 122/16 = 75%
 
-  @media (max-width $tab-land)
-    font-size 56.25% // 1rem = 9px, 9/16 = 56.25
+  @media (max-width $breakpoint-md)
+    font-size 59% // 1rem = 9.44px, 9.44/16 = 59%
 
-  @media (max-width $tab-port)
-    font-size 50% // 1rem = 8px, 8/16 = 50%
+  @media (max-width $breakpoint-sm)
+    font-size 57% // 1rem = 9.12px, 9.12/16 = 57%
 
-  @media (max-width $phone)
-    font-size 48% // 1rem = 7.5px, 7.5/16 = 47%
+  @media (max-width $breakpoint-xs)
+    font-size 55% // 1rem = 8.8px, 8.8/16 = 55%
 
 // Set Colors
 :root
