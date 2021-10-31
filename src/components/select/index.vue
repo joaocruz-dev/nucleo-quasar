@@ -26,6 +26,7 @@ export default {
     disable: { type: Boolean, default: false },
     standout: { type: Boolean, default: null },
     multiple: { type: Boolean, default: false },
+    outlined: { type: Boolean, default: false },
     fullValue: { type: Boolean, default: false },
 
     error: { default: false },
@@ -118,7 +119,7 @@ export default {
   <div class="n-select">
     <q-select v-model="model" :label="label" :options="_options" :loading="update" :multiple="multiple" :dark="dark"
       :use-chips="multiple" :dense="dense" :filled="filled" :rounded="rounded" :standout="standout" :disable="disable"
-      :color="color" :bg-color="bgColor" :use-input="filter" :input-debounce="300"
+      :color="color" :bg-color="bgColor" :use-input="filter" :input-debounce="300" :outlined="outlined"
       :error="!!_error" :error-message="msgError"
       @blur="blurFn" @filter="filterFn">
 

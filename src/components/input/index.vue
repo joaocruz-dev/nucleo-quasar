@@ -20,6 +20,8 @@ export default {
 
     dark: { type: Boolean, default: null },
     disable: { type: Boolean, default: false },
+    rounded: { type: Boolean, default: false },
+    outlined: { type: Boolean, default: false },
     autogrow: { type: Boolean, default: false },
     stackLabel: { type: Boolean, default: false },
 
@@ -90,8 +92,8 @@ export default {
   <div class="n-input">
     <q-input v-model="model" :label="label" :type="_type" :mask="_mask" :dark="dark" :autogrow="autogrow"
       :hint="hint" :stack-label="stackLabel" :autocomplete="autocomplete" :disable="disable" input-class=""
-      :color="color" :bg-color="bgColor" :step="_type === 'number' ? step : null"
-      :error="!!_error" :error-message="msgError"
+      :color="color" :bg-color="bgColor" :step="_type === 'number' ? step : null" :outlined="outlined"
+      :rounded="rounded" :error="!!_error" :error-message="msgError"
       @blur="blur" @keyup="keyup">
 
       <template #prepend v-if="icon">
