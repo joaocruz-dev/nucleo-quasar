@@ -6,6 +6,7 @@ export default {
 
     icon: { type: String, default: void 0 },
     disable: { type: Boolean, default: false },
+    loading: { type: Boolean, default: false },
     color: { type: String, default: 'text-dark' }
   },
   methods: {
@@ -16,7 +17,8 @@ export default {
 
 <template>
   <div class="n-btn">
-    <q-btn :label="label" :icon-right="icon" :color="color" flat :disable="disable" @click="clickFn">
+    <q-btn :label="label" :icon-right="icon" :color="color"
+      flat :disable="disable" :loading="loading" @click="clickFn">
       <slot></slot>
     </q-btn>
   </div>
