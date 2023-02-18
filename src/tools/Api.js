@@ -12,7 +12,9 @@ export default class Api {
       error: null,
       query: null,
       loading: true,
-      response: false
+      response: false,
+      formData: false,
+      headers: { 'Content-Type': 'application/json' }
     }
   }
 
@@ -40,6 +42,16 @@ export default class Api {
     if (options.loading) Loading.show()
     path += this._objectToQuery(options.query)
 
+    if (options.formData) {
+      data = this._formData(data)
+
+      const headers = options.headers || {}
+      options.headers = {
+        ...headers,
+        'Content-Type': `multipart/form-data; boundary=${data._boundary}`
+      }
+    }
+
     return this._request(options, (api, resolve, reject) => {
       api.request({ method, url: path, data })
         .then(res => resolve(options.response ? res : res.data))
@@ -53,7 +65,7 @@ export default class Api {
   _request (options, request) {
     const api = axios.create({
       baseURL: this._baseURL,
-      headers: { 'Content-Type': 'application/json' }
+      headers: options.headers || undefined
     })
     if (options.token) api.defaults.headers.Authorization = `Bearer ${LocalStorage.getItem('token')}`
     return new Promise((resolve, reject) => request(api, resolve, reject))
@@ -82,5 +94,11 @@ export default class Api {
     if (!query) query = {}
     const str = Object.keys(query).map(x => `${encodeURIComponent(x)}=${encodeURIComponent(query[x])}`).join('&')
     return str ? `?${str}` : ''
+  }
+
+  _formData (data) {
+    const formData = new FormData()
+    for (let key in data) formData.append(key, data[key])
+    return formData
   }
 }

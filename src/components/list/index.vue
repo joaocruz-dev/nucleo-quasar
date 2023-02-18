@@ -39,25 +39,23 @@ export default {
         <n-action icon="add" @click="openFn(null, null)" v-if="!noAdd"/>
       </template>
 
-      <template>
-        <q-list>
-          <q-slide-item v-for="(item, i) in model" :key="`n-list_item--${i}`" right-color="negative"
-            @right="deleteFn($event, item, i)">
+      <q-list>
+        <q-slide-item v-for="(item, i) in model" :key="`n-list_item--${i}`" right-color="negative"
+          @right="deleteFn($event, item, i)">
 
-            <template #right v-if="!noDelete">
-              Excluir
-            </template>
+          <template #right v-if="!noDelete">
+            Excluir
+          </template>
 
-            <div :class="`n-list_item row items-center ${noEdit ? 'default' : 'pointer'}`" v-ripple="!noEdit" @click="!noEdit && openFn(item, i)">
-              <div class="row col">
-                <slot name="item" :item="item" :index="i"/>
-              </div>
-              <n-action icon="east" v-if="!noEdit"/>
+          <div :class="`n-list_item row items-center ${noEdit ? 'default' : 'pointer'}`" v-ripple="!noEdit" @click="!noEdit && openFn(item, i)">
+            <div class="row col">
+              <slot name="item" :item="item" :index="i"/>
             </div>
+            <n-action icon="east" v-if="!noEdit"/>
+          </div>
 
-          </q-slide-item>
-        </q-list>
-      </template>
+        </q-slide-item>
+      </q-list>
 
     </n-card>
   </div>

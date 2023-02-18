@@ -20,12 +20,31 @@ export default {
 
 <template>
   <div class="n-status">
-    <q-badge :label="model.label" :color="model.color" :text-color="model.textColor || 'white'"/>
+    <div :class="`status row flex-center text-${model.color}`">
+      <span class="focus"/>
+      <q-icon :name="model.icon" v-if="model.icon"/>
+      <span class="label">{{model.label}}</span>
+    </div>
   </div>
 </template>
 
 <style lang="stylus">
   .n-status
-    .q-badge
-      padding .5rem 1rem
+    font-size 1.4rem
+    .status
+      overflow hidden
+      padding 3px 1rem
+      position relative
+      border-radius 1rem
+      display inline-block
+      .focus
+        top 0
+        left 0
+        width 100%
+        height 100%
+        opacity .15
+        position absolute
+        background currentColor
+      .q-icon
+        padding-right 2px
 </style>
