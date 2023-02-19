@@ -30,5 +30,5 @@ export default {
       width 100%
       min-width 100px
       text-transform inherit
-      border 1px solid $accent
+      border 1px solid var(--border)
 </style>
