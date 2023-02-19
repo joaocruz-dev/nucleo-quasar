@@ -32,40 +32,60 @@ html
   @media (max-width $breakpoint-xs)
     font-size 55% // 1rem = 8.8px, 8.8/16 = 55%
 
+html
+  color var(--text-light) !important
+  background-color var(--bg-light) !important
+  body
+    color var(--text-light) !important
+    background-color var(--bg-light) !important
+
 // Set Colors
 :root
   // Light
+  --border $border
   --text-dark $text-dark
   --text-light $text-light
   --bg-dark $bg-dark
   --bg-light $bg-light
   // Dark
+  --dark-border $dark-border
   --dark-text-dark $dark-text-dark
   --dark-text-light $dark-text-light
   --dark-bg-dark $dark-bg-dark
   --dark-bg-light $dark-bg-light
 
-.text-text-dark
+.n-border
   color var(--text-dark)
-.text-text-light
+.n-text-dark
+  color var(--text-dark)
+.n-text-light
   color var(--text-light)
-
-.bg-bg-dark
+.n-bg-dark
   background var(--bg-dark)
-.bg-bg-light
+.n-bg-light
   background var(--bg-light)
 
 // Settings
+ion-icon
+  display block !important
+
 .q-tab__indicator
   height 4px
 
 .q-dialog__inner--right
   padding 0 !important
 
+.n-table-container__data .data
+  border none !important
+
 .q-menu
   border-radius 5px
-  border 1px solid $accent
-  box-shadow 0px 0px 30px rgba(#000, 0.15)
+  border none !important
+  box-shadow 0px 0px 15px rgba(#000, 0.2) !important
+body.body--dark .q-menu
+  box-shadow 0px 2px 15px rgba(#000, 0.5) !important
 
-.q-menu.q-dark
-  box-shadow 0px 0px 15px rgba(#FFF, 0.15)
+.n-menu-shadow
+  box-shadow 0px 0px 15px rgba(#000, 0.2) !important
+body.body--dark .n-menu-shadow
+  box-shadow 0px 2px 15px rgba(#000, 0.5) !important
