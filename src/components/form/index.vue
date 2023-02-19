@@ -100,8 +100,8 @@ export default {
       box-shadow 0px 0px 30px rgba(#000, 0.15)
     &_header
       padding 1rem
-      border-bottom 1px solid $accent
       background-color var(--bg-light)
+      border-bottom 1px solid var(--border)
       .title
         margin 0
         font-size 2rem
