@@ -126,7 +126,7 @@ export default {
         margin-top 1rem
         padding 3rem 2rem
         border-radius 1rem
-        border 1px solid $accent
+        border 1px solid var(--border)
         background-color var(--bg-light)
         &:hover
           box-shadow 0px 0px 30px rgba(#000, 0.1)
