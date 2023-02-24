@@ -43,6 +43,7 @@ export default {
     model: {
       get () {
         if (this.type === 'date') return this.value ? date.formatDate(this.value, this.maskDate) : ''
+        if (this.type === 'percentage') return Number((this.value * 100).toFixed(2))
         return this.value
       },
       set (val) {
@@ -50,6 +51,7 @@ export default {
           val = val.length < this.maskDate.length ? null : date.extractDate(val, this.maskDate).toISOString()
           return this.$emit('input', val)
         }
+        if (this.type === 'percentage') return this.$emit('input', Number((val / 100).toFixed(4)))
         if (this._type === 'number') return this.$emit('input', Number(val))
         this.$emit('input', val)
       }
