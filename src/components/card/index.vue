@@ -40,7 +40,7 @@ export default {
       width 100%
       overflow hidden
       border-radius 5px
-      border 1px solid $accent
+      border 1px solid var(--border)
       background-color var(--bg-light)
     &_header
       padding 1rem 2rem
@@ -54,7 +54,7 @@ export default {
         color var(--text-dark)
     &_section
       font-size 1.5rem
-      border-top 1px solid $accent
+      border-top 1px solid var(--border)
     &_section--row
       padding 2rem
       padding-bottom 1rem

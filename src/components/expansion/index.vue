@@ -9,7 +9,7 @@ export default {
     color: { type: String, default: 'text-light' }
   },
   computed: {
-    _color () { return this.error ? 'negative' : this.color }
+    $color () { return this.error ? 'negative' : this.color }
   }
 }
 </script>
@@ -19,11 +19,12 @@ export default {
 
     <template v-slot:header>
       <q-item-section avatar>
-        <q-icon :name="icon" :color="_color"/>
+        <slot name="avatar" v-if="$slots.avatar"/>
+        <q-icon :name="icon" :color="$color" v-else-if="icon"/>
       </q-item-section>
 
-      <q-item-section :class="`text-${_color}`">
-        {{ label }}
+      <q-item-section :class="`text-${$color}`">
+        {{label}}
       </q-item-section>
     </template>
 

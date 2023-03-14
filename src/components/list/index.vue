@@ -68,7 +68,7 @@ export default {
       border none
       .q-list
         .q-slide-item
-          border-top 1px solid $accent
+          border-top 1px solid var(--border)
           .n-list_item
             font-size 1.5rem
             padding 1rem 2rem
