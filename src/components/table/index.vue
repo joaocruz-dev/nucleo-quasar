@@ -23,12 +23,11 @@ export default {
     optionsSize: {
       type: Array,
       default: () => [
-        { label: '5', value: 5 },
-        { label: '10', value: 10 },
-        { label: '15', value: 15 },
         { label: '25', value: 25 },
         { label: '50', value: 50 },
-        { label: '100', value: 100 }
+        { label: '75', value: 75 },
+        { label: '100', value: 100 },
+        { label: '150', value: 150 }
       ]
     },
 
@@ -44,7 +43,7 @@ export default {
   },
   data: () => ({
     page: 1,
-    size: 5,
+    size: 25,
     totalCount: 0,
 
     search: '',
@@ -166,6 +165,7 @@ export default {
       if (this.externalFilter) this.updateFn()
     },
     size () {
+      this.page = 1
       if (this.externalFilter) this.updateFn()
     },
     search () {
