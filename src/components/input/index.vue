@@ -64,7 +64,7 @@ export default {
       if (this.type === 'time') return 'tel'
       if (this.type === 'cnpj') return 'tel'
       if (this.type === 'phone') return 'tel'
-      if (this.type === 'color') return ''
+      if (this.type === 'color') return 'tel'
       if (this.type === 'percentage') return 'number'
       return this.type
     },
@@ -75,6 +75,7 @@ export default {
       if (this.type === 'cpf') return '###.###.###-##'
       if (this.type === 'phone') return '(##) #####-####'
       if (this.type === 'cnpj') return '##.###.###/####-##'
+      if (this.type === 'color') return '\#XXXXXX'
       return ''
     },
     _error () { return this.vlidate ? this.vlidate.$error : this.error },
