@@ -75,7 +75,7 @@ export default {
       if (this.type === 'cpf') return '###.###.###-##'
       if (this.type === 'phone') return '(##) #####-####'
       if (this.type === 'cnpj') return '##.###.###/####-##'
-      if (this.type === 'color') return '\#XXXXXX'
+      if (this.type === 'color') return '\\#XXXXXX'
       return ''
     },
     _error () { return this.vlidate ? this.vlidate.$error : this.error },
