@@ -75,7 +75,7 @@ export default class Api {
     error = error.response || error
 
     // Unauthorized function
-    if (error && error.status === 403 && this._unauthorizedFn) {
+    if (error && error.status === 401 && this._unauthorizedFn) {
       Loading.hide()
       return this._unauthorizedFn(error)
     }
