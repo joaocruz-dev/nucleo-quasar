@@ -73,7 +73,10 @@ export default {
       if (this.type === 'cep') return '#####-###'
       if (this.type === 'date') return '##/##/####'
       if (this.type === 'cpf') return '###.###.###-##'
-      if (this.type === 'phone') return '(##) #####-####'
+      if (this.type === 'phone') {
+        if (this.model.length < 15) return '(##) ####-####'
+        else return  '(##) #####-####'
+      }
       if (this.type === 'cnpj') return '##.###.###/####-##'
       if (this.type === 'color') return '\\#XXXXXX'
       return ''
