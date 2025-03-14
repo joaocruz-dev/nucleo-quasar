@@ -14,6 +14,7 @@ export default class Api {
       loading: true,
       response: false,
       formData: false,
+      responseType: undefined,
       headers: { 'Content-Type': 'application/json' }
     }
   }
@@ -53,7 +54,7 @@ export default class Api {
     }
 
     return this._request(options, (api, resolve, reject) => {
-      api.request({ method, url: path, data })
+      api.request({ method, url: path, data, responseType: options.responseType })
         .then(res => resolve(options.response ? res : res.data))
         .catch(error => this._error(error, options, reject))
         .finally(() => {
